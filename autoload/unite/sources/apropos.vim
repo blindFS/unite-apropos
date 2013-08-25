@@ -3,7 +3,8 @@ set cpo&vim
 
 let s:unite_source = {
             \ 'name': 'apropos',
-            \ 'required_pattern_length': 3,
+            \ 'required_pattern_length': 2,
+            \ 'is_volatile': 1,
             \ 'action_table': {},
             \ }
 
@@ -19,7 +20,7 @@ let s:unite_source.action_table.insert= {
             \ }
 
 function! s:unite_source.action_table.insert.func(candidate)
-    execute "Man ".matchstr(a:candidate.word, '.*\ze\s\+(1)')
+    execute "Man ".matchstr(a:candidate.word, '.*\ze\s\+(.*)\s\+-')
 endfunction
 
 function! s:unite_source.gather_candidates(args, context)
