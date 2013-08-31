@@ -5,7 +5,9 @@ let s:unite_source = {
             \ 'name': 'apropos',
             \ 'required_pattern_length': 2,
             \ 'is_volatile': 1,
+            \ 'hooks' : {},
             \ 'action_table': {},
+            \ 'syntax' : 'uniteSource__Apropos'
             \ }
 
 if executable('apropos')
@@ -21,6 +23,13 @@ let s:unite_source.action_table.insert= {
 
 function! s:unite_source.action_table.insert.func(candidate)
     execute "Man ".matchstr(a:candidate.word, '.*\ze\s\+(.*)\s\+-')
+endfunction
+
+function! s:unite_source.hooks.on_syntax(args, context)
+    syntax match uniteSource__Apropos_desc /)\s\+-\zs.*$/ contained containedin=uniteSource__Apropos
+    syntax match uniteSource__Apropos_name /.*\ze(/ contained containedin=uniteSource__Apropos contains=uniteCandidateInputKeyword
+    highlight default link uniteSource__Apropos_desc Constant
+    highlight default link uniteSource__Apropos_name Keyword
 endfunction
 
 function! s:unite_source.gather_candidates(args, context)
