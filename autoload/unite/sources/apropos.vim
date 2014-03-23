@@ -22,7 +22,9 @@ let s:unite_source.action_table.insert= {
             \ }
 
 function! s:unite_source.action_table.insert.func(candidate)
-    execute "Man ".matchstr(a:candidate.word, '.*\ze\s\+(.*)\s\+-')
+    let name = matchstr(a:candidate.word, '.*\ze\s\+(.*)\s\+-')
+    let cate = matchstr(a:candidate.word, '(\zs\d.*\ze)\s\+-')
+    execute "Man ".cate." ".name
 endfunction
 
 function! s:unite_source.hooks.on_syntax(args, context)
