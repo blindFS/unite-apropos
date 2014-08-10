@@ -16,12 +16,12 @@ else
     echoerr 'Apropos is not executable on your system.'
 endif
 
-let s:unite_source.action_table.insert= {
+let s:unite_source.action_table.execute= {
             \ 'description' : 'view man page',
-            \ 'is_quit' : 0,
+            \ 'is_quit' : 1,
             \ }
 
-function! s:unite_source.action_table.insert.func(candidate)
+function! s:unite_source.action_table.execute.func(candidate)
     let name = matchstr(a:candidate.word, '.*\ze\s\+(.*)\s\+-')
     let cate = matchstr(a:candidate.word, '(\zs\d.*\ze)\s\+-')
     execute "Man ".cate." ".name
@@ -42,7 +42,7 @@ function! s:unite_source.gather_candidates(args, context)
                 \     a:context.input)),
                 \   "\n"),
                 \ '{"word": v:val,
-                \ "kind": "word",
+                \ "kind": "command",
                 \ "source": "apropos",
                 \ }')
 endfunction
